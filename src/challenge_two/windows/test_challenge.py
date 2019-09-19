@@ -23,8 +23,7 @@ def test_register_new_account_section_one():
 
 def test_book_a_flight():
     challenge.book_a_flight("//a[contains(text(),'Flights')]",
-                          "//tr[3]/td/table/tbody/tr/td/font",
-                          "//a[contains(text(),'featured vacation destinations')]")
+                          "//tr[3]/td/table/tbody/tr/td/font")
 
 def test_tear_down():
     challenge.tear_down(challenge.web_driver.quit(), 

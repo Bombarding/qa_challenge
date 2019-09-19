@@ -33,6 +33,7 @@ def register_new_account_section_one(register_link,
         web_driver.find_element_by_xpath(country).click()
     except NoSuchElementException:
         pytest.fail("Expected Failure: Element Is not Available")
+        
 def book_a_flight(flight_link, destination_choice, future_destinations):
     web_driver.find_element_by_xpath(flight_link).click()
     try:
@@ -41,9 +42,6 @@ def book_a_flight(flight_link, destination_choice, future_destinations):
         assert nothing_clickable == 0, "Nothing can be selected"
         web_driver.save_screenshot("C:/Users/Alex/workspace/qa_challenge/src/challenge_two/windows/flights_page.png")
     web_driver.find_element_by_xpath(future_destinations).click()
-    #text_src = web_driver.page_source
-    #text_to_find = re.search(r'This section of our web site is currently under construction', text_src)
-    #assert (text_to_find in web_driver.text_src)
 
 def tear_down(w_d, o_s):
     w_d

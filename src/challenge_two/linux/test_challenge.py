@@ -7,15 +7,15 @@
 '''
 #################################################################
 import imp
-script = imp.load_source('module.name', '/home/asteel/qa_challenge/src/challenge_two/linux/script.py')
+script = imp.load_source('module.name', '/home/asteel/qa_challenge/src/challenge_two/linux/challenge.py')
 configuration = imp.load_source('module.name', '/home/asteel/qa_challenge/src/challenge_two/configuration.py')
 import os
 
 def test_start_up():
-    script.start_up(configuration.challenge_information[0])
+    challenge.start_up(configuration.challenge_information[0])
 
 def test_register_new_account_section_one():
-    script.register_new_account_section_one("//a[contains(text(),'REGISTER')]",
+    challenge.register_new_account_section_one("//a[contains(text(),'REGISTER')]",
                                              "firstName", "test",
                                              "lastName", "user",
                                              "phone", "1111111111",
@@ -23,10 +23,9 @@ def test_register_new_account_section_one():
                                              "//select[@name='country']/option[text()='UNITED KINGDOM']")
 
 def test_book_a_flight():
-    script.book_a_flight("//a[contains(text(),'Flights')]",
-                          "//tr[3]/td/table/tbody/tr/td/font",
-                          "//a[contains(text(),'featured vacation destinations')]")
+    challenge.book_a_flight("//a[contains(text(),'Flights')]",
+                          "//tr[3]/td/table/tbody/tr/td/font")
 
 def test_tear_down():
-    script.tear_down(script.web_driver.quit(), 
+    challenge.tear_down(challenge.web_driver.quit(), 
                         os.system('coverage xml'))

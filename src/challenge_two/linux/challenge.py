@@ -10,7 +10,8 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from pyvirtualdisplay import Display
-import re
+import re, pytest
+from selenium.common.exceptions import NoSuchElementException
 
 def start_up(application_url):
     global web_driver, d
@@ -25,23 +26,24 @@ def register_new_account_section_one(register_link,
                                      phone_number, phone_number_text, 
                                      email_address, email_address_text,
                                      country):
-    web_driver.find_element_by_name(register_link).click()
+    web_driver.find_element_by_xpath(register_link).click()
     web_driver.find_element_by_name(first_name).send_keys(first_name_text)
     web_driver.find_element_by_name(last_name).send_keys(last_name_text)
     web_driver.find_element_by_name(phone_number).send_keys(phone_number_text)
     web_driver.find_element_by_name(email_address).send_keys(email_address_text)
-    web_driver.find_element_by_xpath(country).click()
-    
+    try:
+        web_driver.find_element_by_xpath(country).click()
+    except NoSuchElementException:
+        pytest.fail("Expected Failure: Element Is not Available")
+        
 def book_a_flight(flight_link, destination_choice, future_destinations):
     web_driver.find_element_by_xpath(flight_link).click()
-    nothing_clickable = web_driver.find_element_by_xpath(destination_choice)
-    if(len(nothing_clickable) == 0):
-        assert len(nothing_clickable) == 0, "Nothing can be selected"
-        web_driver.save_screenshot("flights_page.png")
+    try:
+        nothing_clickable = web_driver.find_element_by_xpath(destination_choice)
+    except NoSuchElementException:
+        assert nothing_clickable == 0, "Nothing can be selected"
+        web_driver.save_screenshot("C:/Users/Alex/workspace/qa_challenge/src/challenge_two/windows/flights_page.png")
     web_driver.find_element_by_xpath(future_destinations).click()
-    text_src = web_driver.page_source
-    text_to_find = re.search(r'This section of our web site is currently under construction', text_src)
-    assert (text_to_find in web_driver.text_src)
     
 def tear_down(w_d, o_s):
     d.stop()
